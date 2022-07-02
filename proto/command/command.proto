@@ -95,9 +95,20 @@ message Send {
 message Message {}
 
 message Ack {
+    enum AckType {
+        Unknown = 0;
+        Individual = 1;
+        Cumulative = 2;
+    }
+    uint64 consumer_id = 1;
+    AckType ack_type = 2;
+    repeated uint64 message_ids = 3;
 }
 
-message Flow {}
+message Flow {
+    uint64 consumer_id = 1;
+    uint64 msg_permits = 2;
+}
 
 message Unsubscribe {
     uint64 consumer_id = 1;
