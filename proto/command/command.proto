@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+option go_package = "github.com/bitcapybara/geckod-proto/gen/go/proto/command";
+package command;
+
+message BaseCommand {
+    uint64 msg_id = 1;
+
+    oneof Command {
+        Connect connect = 2;
+        Connected connected = 3;
+        Producer producer = 4;
+        ProducerSuccess producer_success = 5;
+        Subscribe subscribe = 6;
+        SubscribeSuccess subscribe_success = 7;
+        // 消费者发送消息给服务端
+        Send send = 8;
+        // 服务端发送消息给客户端
+        Message message = 9;
+        // 消费者确认消息已消费
+        Ack ack = 10;
+        // 消费者通知服务端可消费数量
+        Flow flow = 11;
+        // 消费者取消订阅
+        Unsubscribe unsubscribe = 12;
+        // 获取服务端当前的topics
+        Topics topics = 13;
+        // 服务端返回的结果
+        Error error = 14;
+    }
+}
+
+message Connect {
+    enum AuthMethod {
+        Unknown = 0;
+        Sha256 = 1;
+        Md5 = 2;
+    }
+    // 客户端名称
+    string client_name = 1;
+    // 加密方法
+    AuthMethod auth_method = 2;
+    // 用户名
+    string username = 3;
+    // 加密后的密码
+    string password = 4;
+}
+
+message Connected {
+    uint64 client_id = 1;
+}
+
+message Producer {
+    enum AccessMode {
+        Unknown = 0;
+        Shared = 1;
+        Exclusive = 2;
+    }
+    uint64 client_id = 2;
+    string producer_name = 3;
+    string topic = 4;
+    AccessMode access_mode = 5;
+}
+
+message ProducerSuccess {
+    uint64 producer_id = 1;
+}
+
+message Subscribe {
+    enum SubscriptionType {
+        Unknown = 0;
+        Shared = 1;
+        Exclusive = 2;
+    }
+    uint64 client_id = 1;
+    string consumer_name = 2;
+    string topic = 3;
+    string sub_name = 4;
+    SubscriptionType sub_type = 5;
+}
+
+message SubscribeSuccess {
+    uint64 consumer_id = 1;
+}
+
+message Send {
+    uint64 producer_id = 1;
+    string topic_name = 2;
+    string key = 3;
+    int64 timestamp = 4;
+    uint64 sequence_id = 5;
+    bytes payload = 6;
+}
+
+message Message {}
+
+message Ack {
+}
+
+message Flow {}
+
+message Unsubscribe {
+    uint64 consumer_id = 1;
+}
+
+message Topics {}
+
+message Error {
+    enum Code {
+        Unknown = 0;
+        ProducerNotFound = 1;
+        ConsumerNotFound = 2;
+        AuthenticateFail = 3;
+    }
+
+    Code code = 1;
+    string message = 2;
+}
