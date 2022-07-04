@@ -122,6 +122,7 @@ message Error {
         ProducerNotFound = 1;
         ConsumerNotFound = 2;
         AuthenticateFail = 3;
+        UnmatchAckType = 4;
     }
 
     Code code = 1;
