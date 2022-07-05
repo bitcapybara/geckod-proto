@@ -123,6 +123,8 @@ message Error {
         ConsumerNotFound = 2;
         AuthenticateFail = 3;
         UnmatchAckType = 4;
+        ProducerAlreadyExists = 5;
+        ConsumerAlreadyExists = 6;
     }
 
     Code code = 1;
