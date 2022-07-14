@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "github.com/bitcapybara/geckod-proto/gen/go/proto/signaling";
+package signaling;
+
+import "proto/command/command.proto";
+
+service Signaling {
+    rpc Ping (Empty) returns (Empty);
+    rpc Signaling (stream command.BaseCommand) returns (stream command.BaseCommand);
+}
+
+message Empty {}

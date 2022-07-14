@@ -125,6 +125,8 @@ message Error {
         UnmatchAckType = 4;
         ProducerAlreadyExists = 5;
         ConsumerAlreadyExists = 6;
+        ExclusiveConflict = 5;
+        DuplicatedSequenceId = 6;
     }
 
     Code code = 1;
